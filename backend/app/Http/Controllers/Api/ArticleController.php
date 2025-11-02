@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Http\Requests\StoreArticleRequest;
 use App\Http\Requests\UpdateArticleRequest;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
@@ -17,12 +19,18 @@ class ArticleController extends Controller
     {
         $filter = $request->query('title');
 
-        return Article::query()
-            ->when($filter, function ($query, $filter) {
-                $query->where('title', 'like', '%' . $filter . '%');
-            })
-            ->latest('created_at')
-            ->get();
+        $cacheKey = 'articles:index:' . ($filter ? 'title=' . $filter : 'all');
+
+        $articles = Cache::remember($cacheKey, 10, function () use ($filter) {
+            return Article::query()
+                ->when($filter, function ($query, $filter) {
+                    $query->where('title', 'like', '%' . $filter . '%');
+                })
+                ->latest('created_at')
+                ->get();
+        });
+
+        return $articles;
     }
 
     /**
