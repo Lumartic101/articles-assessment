@@ -24,3 +24,4 @@ Stappen:
     - Basis feature-tests (PHPUnit) voor de endpoints schrijven.
 8. Oplevering
     - Werkende API in de repository met duidelijke setup-instructies zodat de beoordelaar lokaal kan draaien en testen.
+9. Indien tijd over Caching implementeren -> Image uploaden -> Search and filtering -> Provide a Dockerfile or short deployment instructions.
