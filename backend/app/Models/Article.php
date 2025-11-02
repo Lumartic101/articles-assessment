@@ -9,6 +9,12 @@ class Article extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'content'];
-    public $timestamps = false; // als je alleen created_at wilt
+    protected $fillable = ['title', 'content', 'image'];
+    public $timestamps = false;
+    protected $appends = ['image_url'];
+
+    public function getImageUrlAttribute(): ?string
+    {
+        return $this->image ? asset('storage/'.$this->image) : null;
+    }
 }

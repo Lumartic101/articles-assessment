@@ -31,11 +31,15 @@ class ArticleController extends Controller
     public function store(StoreArticleRequest $request)
     {
         $data = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('articles', 'public');
+        }
+
         $article = Article::create($data);
 
         return response()->json($article, 201);
     }
-
     /**
      * Display the specified resource.
      */
@@ -49,7 +53,16 @@ class ArticleController extends Controller
      */
     public function update(UpdateArticleRequest $request, Article $article)
     {
-        $article->update($request->validated());
+        $data = $request->validated();
+
+        if ($request->hasFile('image')) {
+            if ($article->image) {
+                Storage::disk('public')->delete($article->image);
+            }
+            $data['image'] = $request->file('image')->store('articles', 'public');
+        }
+
+        $article->update($data);
         return $article->fresh();
     }
 
@@ -58,7 +71,11 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
+        if ($article->image) {
+            Storage::disk('public')->delete($article->image);
+        }
         $article->delete();
+
         return response()->noContent();
     }
 }
