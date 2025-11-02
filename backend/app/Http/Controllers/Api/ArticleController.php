@@ -11,10 +11,16 @@ class ArticleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $articles = Article::orderBy('created_at', 'desc')->get();
-        return response()->json($articles);
+        $filter = $request->query('title');
+
+        return Article::query()
+            ->when($filter, function ($query, $filter) {
+                $query->where('title', 'like', '%' . $filter . '%');
+            })
+            ->latest('created_at')
+            ->get();
     }
 
     /**
@@ -28,9 +34,9 @@ class ArticleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Article $article)
     {
-        //
+        return $article;
     }
 
     /**

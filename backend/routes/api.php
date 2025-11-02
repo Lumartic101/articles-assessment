@@ -6,3 +6,4 @@ use App\Http\Controllers\Api\ArticleController;
 
 // Publiek: lijst + detail
 Route::get('/articles', [ArticleController::class, 'index']);
+Route::get('/articles/{article}', [ArticleController::class, 'show']);
