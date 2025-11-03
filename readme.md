@@ -88,7 +88,7 @@ Moet er zo uit zien:
  extension=gd
 ```
 
-## 4. Server starten (standaard op http://127.0.0.1:8000)
+## 5. Server starten (standaard op http://127.0.0.1:8000)
 ```bash 
 php artisan serve
 ```
