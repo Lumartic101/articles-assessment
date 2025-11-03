@@ -18,13 +18,23 @@ class ArticleController extends Controller
     public function index(Request $request)
     {
         $filter = $request->query('title');
+        $createdAt = $request->query('created_at');
 
-        $cacheKey = 'articles:index:' . ($filter ? 'title=' . $filter : 'all');
+        $cacheKey = 'articles:index:' . ($filter ? 'title=' . $filter : 'all')
+            . ':' . ($createdAt ? 'created_at=' . $createdAt : 'all_dates');
 
-        $articles = Cache::remember($cacheKey, 10, function () use ($filter) {
+        $articles = Cache::remember($cacheKey, 10, function () use ($filter, $createdAt) {
             return Article::query()
                 ->when($filter, function ($query, $filter) {
                     $query->where('title', 'like', '%' . $filter . '%');
+                })
+                ->when($createdAt, function ($query, $createdAt) {
+                    if (strpos($createdAt, ',') !== false) {
+                        [$start, $end] = explode(',', $createdAt, 2);
+                        $query->whereBetween('created_at', [$start, $end]);
+                    } else {
+                        $query->whereDate('created_at', $createdAt);
+                    }
                 })
                 ->latest('created_at')
                 ->get();
