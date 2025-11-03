@@ -65,30 +65,36 @@ Onderstaande instructies beschrijven hoe je het project lokaal kunt draaien zond
 
 # Back-end (Laravel)
 
-## 1. SQLite database aanmaken en configureren
+## 1. CD naar juiste dir
+```bash
+    cd /backend
+```
+
+
+## 2. SQLite database aanmaken en configureren
 ```bash 
 composer i
 ``` 
 
-## 2. SQLite database aanmaken en configureren
+## 3. SQLite database aanmaken en configureren
 ```bash 
 mkdir -p database
 touch database/database.sqlite 
 ``` 
 
-## 3. Database migreren en seeden (maakt testdata aan)
+## 4. Database migreren en seeden (maakt testdata aan)
 ```bash 
-    php artisan migrate --seed
+    php artisan migrate:fresh --seed
 ```
 
-## 4. Enable extension in php.ini
+## 5. Enable extension in php.ini
 Dit is nodig voor een unit test die ik had gemaakt m.b.t image uploaden.
 Moet er zo uit zien:
 ```bash
  extension=gd
 ```
 
-## 5. Server starten (standaard op http://127.0.0.1:8000)
+## 6. Server starten (standaard op http://127.0.0.1:8000)
 ```bash 
 php artisan serve
 ```
