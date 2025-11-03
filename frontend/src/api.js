@@ -23,10 +23,19 @@ export async function loginRequest({ email, password }) {
 }
 
 // --- Articles ---
-export async function fetchArticles() {
-  const { data } = await api.get("/articles");
-  // backend kan array of paginated {data:[...]} geven
-  return Array.isArray(data) ? data : data?.data || [];
+export async function fetchArticles(params = {}) {
+  // params: { title?: string, created_from?: string, created_to?: string }
+  const search = new URLSearchParams();
+  Object.entries(params).forEach(([k, v]) => {
+    if (v !== undefined && v !== null && String(v).trim() !== "") {
+      search.append(k, v);
+    }
+  });
+
+  const url = search.toString() ? `/articles?${search}` : `/articles`;
+  const { data } = await client.get(url);
+  // Als je backend paginate() gebruikt, haal dan hier .data uit data
+  return Array.isArray(data) ? data : (data.data ?? []);
 }
 
 export async function fetchArticle(id) {
