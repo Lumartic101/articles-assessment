@@ -1,0 +1,60 @@
+.container {
+  max-width: 880px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.card {
+  background: white;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #e8e8e8;
+}
+.list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+.row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.muted {
+  color: #6b7280;
+}
+.error {
+  color: #b91c1c;
+}
+button {
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  background: white;
+}
+button.secondary, a.secondary {
+  background: #f3f4f6;
+  border-color: #e5e7eb;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+button.danger {
+  border-color: #fecaca;
+  background: #fee2e2;
+}
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  background: white;
+}
